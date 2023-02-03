@@ -13,20 +13,16 @@
             <div class="card-body px-lg-5 py-lg-5">
 
               @if ($errors->any())
-              <div class="text-center text-muted mb-4">
-                <small>Oops! Se encontro un error </small>
-              </div>
+                <div class="alert alert-danger" role="alert">
+                  {{ $errors->first()}}
+                </div>
               @endif
 
               
 
               <form role="form" method="POST" action="{{ route('login') }}">
               @csrf
-                @if ($errors->any())
-                <div>
-                  <strong> Error!</strong> {{ $errors->first()}}
-                </div>
-                @endif
+                
                 <div class="form-group mb-3">
                   <div class="input-group input-group-alternative">
                     <div class="input-group-prepend">
