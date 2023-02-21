@@ -19,14 +19,14 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            //inicio edit
+            $table->string('dni');
 
-            //$table->string('dni');
+            $table->string('address')->nullabel();
+            $table->string('phone')->nullabel();
 
-            //$table->string('address')->nullabel();
-            //$table->string('phone')->nullabel();
-
-            //$table->string('role'); // 'admin', 'paciente', 'doctor'
-
+            $table->string('role'); // 'admin', 'paciente', 'doctor'
+            //fin edit
             $table->rememberToken();
             $table->timestamps();
         });
