@@ -33,3 +33,13 @@ Route::middleware(['auth', 'doctor'])->group(function () {
     Route::get('/schedule', [App\Http\Controllers\Doctor\ScheduleController::class, 'edit']);
     Route::post('/schedule', [App\Http\Controllers\Doctor\ScheduleController::class, 'store']);
 });
+
+Route::middleware('auth')->group(function () {
+    Route::get('/appointments/create', [App\Http\Controllers\AppointmentController::class, 'create']);
+    Route::post('/appointments', [App\Http\Controllers\AppointmentController::class, 'store']);
+
+    //JSON
+Route::get('/specialties/{specialty}/doctors', [App\Http\Controllers\Api\SpecialtyController::class, 'doctors']);
+Route::get('/schedule/hours', [App\Http\Controllers\Api\ScheduleController::class, 'hours']);
+});
+

@@ -15,7 +15,7 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/specialties">
-                <i class="ni ni-planet text-blue"></i> Atención dental
+                <i class="ni ni-planet text-blue"></i> Especialidades dentales
               </a>
             </li>
             <li class="nav-item">
@@ -51,12 +51,12 @@
             </li>
           @else {{-- patient --}}
           <li class="nav-item">
-              <a class="nav-link" href="/home">
+              <a class="nav-link" href="/appointments/create">
                 <i class="ni ni-check-bold text=danger"></i> Agendar cita
                </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/specialties">
+              <a class="nav-link" href="/appointments">
                 <i class="ni ni-calendar-grid-58 text-blue"></i> Mis citas
               </a>
             </li>

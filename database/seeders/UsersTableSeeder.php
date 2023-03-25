@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
+use App\Models\User;
 
 class UsersTableSeeder extends Seeder
 {
@@ -27,8 +28,32 @@ class UsersTableSeeder extends Seeder
             'role' => 'admin' 
         ]);
 
+        \App\Models\User::create([
+            'name' => 'Daniel',
+            'email' => 'daniel@gmail.com',
+            'password' => bcrypt('daniel123'), // password
+            
+            // inicio edit
+            'dni' => '52960257',
+            'address' => '',
+            'phone' => '',
+            'role' => 'dentista' 
+        ]);
 
-        \App\Models\User::factory(10)->create(); //CORRECTO
+        \App\Models\User::create([
+            'name' => 'Miguel',
+            'email' => 'miguel@gmail.com',
+            'password' => bcrypt('miguel123'), // password
+            
+            // inicio edit
+            'dni' => '52960257',
+            'address' => '',
+            'phone' => '',
+            'role' => 'paciente' 
+        ]);
+
+
+        \App\Models\User::factory()->count(30)->paciente()->create(); //CORRECTO
         
     }
 }
