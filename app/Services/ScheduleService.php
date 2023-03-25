@@ -3,6 +3,7 @@
 use App\Models\WorkDay;
 use Carbon\Carbon;
 use App\Interfaces\ScheduleServiceInterface;
+use App\Models\Appointment;
 
 class ScheduleService implements ScheduleServiceInterface
 {
@@ -36,11 +37,13 @@ class ScheduleService implements ScheduleServiceInterface
 
             //ARREGLO PARA LOS INTERVALOS DE HORAS
             $morningIntervals = $this->getIntervals(
-                $workDay->morning_start, $workDay->morning_end
+                $workDay->morning_start, $workDay->morning_end,
+                $date, $doctorId
             );
                 
             $afternoonIntervals = $this->getIntervals(
-                $workDay->afternoon_start, $workDay->afternoon_end
+                $workDay->afternoon_start, $workDay->afternoon_end,
+                $date, $doctorId
             );
 
         $data = [];
@@ -50,19 +53,29 @@ class ScheduleService implements ScheduleServiceInterface
         return $data;
     }
 
-    private function getIntervals($start, $end){
+    private function getIntervals($start, $end, $date, $doctorId){
         $start = new Carbon($start);
         $end = new Carbon($end);
 
         $intervals = [];
+
         while($start < $end){
             $interval = [];
 
             $interval ['start'] = $start->format('g:i A');
+
+            //no existe una cita para esta hora con este dentista
+            $exists = Appointment::where('doctor_id', $doctorId)->where('scheduled_date', $date)->where('scheduled_time', $start->format('H:i:s'))->exists();
+
             $start->addMinutes(59+1);
             $interval ['end'] = $start->format('g:i A');
 
-            $intervals []= $interval;
+            
+            
+            if (!$exists) {
+                $intervals []= $interval;
+            }
+            
                 
         }
         return $intervals;
