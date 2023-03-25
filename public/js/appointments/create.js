@@ -65,7 +65,7 @@ function displayHours(data) {
         const text = `${interval.start} - ${interval.end}`;
 
         return `<div class="custom-control custom-radio mb-3">
-        <input type="radio" value="${text}" required id="interval${iRadio}" name="scheduled_time" value="${interval.start}" class="custom-control-input">
+        <input type="radio" required id="interval${iRadio}" name="scheduled_time" value="${interval.start}" class="custom-control-input">
         <label class="custom-control-label" for="interval${iRadio++}">${text}</label>
       </div>`;
     }

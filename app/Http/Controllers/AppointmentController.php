@@ -6,10 +6,11 @@ use Illuminate\Http\Request;
 use App\Models\Specialty;
 use App\Models\Appointment;
 use Carbon\Carbon;
+use App\Interfaces\ScheduleServiceInterface;
 
 class AppointmentController extends Controller
 {
-    public function create()
+    public function create(ScheduleServiceInterface $scheduleService)
     {
         $specialties = Specialty::all();
 
@@ -20,15 +21,17 @@ class AppointmentController extends Controller
         }else{
             $doctors = collect();
         }
-        /*
-        $scheduledDate = old('scheduled_date');
+        
+        $date = old('scheduled_date');
         $doctorId = old('doctor_id');
-        if($scheduledDate && $doctorId){
-            $times = ;
+        if($date && $doctorId){
+            $intervals = $scheduleService->getAvailableIntervals($date, $doctorId);
+        }else{
+            $intervals = null;
         }
-        */
+        
 
-        return view ('appointments.create', compact('specialties', 'doctors'));
+        return view ('appointments.create', compact('specialties', 'doctors', 'intervals'));
     }
 
     public function store(Request $request)
@@ -55,7 +58,7 @@ class AppointmentController extends Controller
         
         // right time format (Falla error)
        $dat = explode('-', $data['scheduled_time']);
-       $times =rtrim($dat[0],' ');
+       $times = rtrim($dat[0],' ');
         
 
         $carbonTime = Carbon::createFromFormat('g:i A', $times);
