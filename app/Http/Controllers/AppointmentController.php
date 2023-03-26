@@ -16,11 +16,15 @@ class AppointmentController extends Controller
     public function index()
     {
         $role = auth()->user()->role;
-        //$role == 'admin';
-
-
-        //dentista
-        if ($role == 'dentista'){
+        
+        if ($role == 'admin') {
+            $pendingAppointments = Appointment::where('status', 'Reservada')
+            ->paginate(10);
+            $confirmedAppointments = Appointment::where('status', 'Confirmada')
+                ->paginate(10);
+            $oldAppointments = Appointment::whereIn('status', ['Atendida', 'Cancelada'])
+                ->paginate(10);
+        }elseif ($role == 'dentista'){
             $pendingAppointments = Appointment::where('status', 'Reservada')
             ->where('doctor_id', auth()->id())
             ->paginate(10);
