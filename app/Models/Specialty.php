@@ -12,4 +12,6 @@ class Specialty extends Model
     {
         return $this->belongsToMany(User::class)->withTimestamps();
     }
+
+    //$specialty->$appointments
 }

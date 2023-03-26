@@ -12,6 +12,12 @@ use Illuminate\Support\Facades\Validator;
 
 class AppointmentController extends Controller
 {
+    public function index()
+    {
+        $appointments = Appointment::paginate(10);
+        return view('appointments.index', compact('appointments'));
+    }
+
     public function create(ScheduleServiceInterface $scheduleService)
     {
         $specialties = Specialty::all();

@@ -37,6 +37,7 @@ Route::middleware(['auth', 'doctor'])->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/appointments/create', [App\Http\Controllers\AppointmentController::class, 'create']);
     Route::post('/appointments', [App\Http\Controllers\AppointmentController::class, 'store']);
+    Route::get('/appointments', [App\Http\Controllers\AppointmentController::class, 'index']);
 
     //JSON
 Route::get('/specialties/{specialty}/doctors', [App\Http\Controllers\Api\SpecialtyController::class, 'doctors']);
