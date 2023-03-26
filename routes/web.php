@@ -44,6 +44,8 @@ Route::middleware('auth')->group(function () {
     -> 1 único blade (condiciones)
     */
     Route::get('/appointments', [App\Http\Controllers\AppointmentController::class, 'index']);
+    Route::get('/appointments/{appointment}/cancel', [App\Http\Controllers\AppointmentController::class, 'showCancelForm']);
+    Route::post('/appointments/{appointment}/cancel', [App\Http\Controllers\AppointmentController::class, 'postCancel']);
 
     //JSON
 Route::get('/specialties/{specialty}/doctors', [App\Http\Controllers\Api\SpecialtyController::class, 'doctors']);

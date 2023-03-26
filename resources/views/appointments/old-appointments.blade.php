@@ -8,7 +8,7 @@
                     <th scope="col">Fecha</th>
                     <th scope="col">Hora</th>
                     <th scope="col">Tipo  de cita</th>
-                    <th scope="col">Opciones</th>
+                    <th scope="col">Estatus de la cita</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -33,16 +33,7 @@
                     {{ $appointment->type }}
                     </td>
                     <td>
-                      
-                      <form action="{{ url('/appointments/'.$appointment->id) }}" method="POST">
-                        @csrf
-                        @method('delete')
-
-                        
-                        <button class="btn btn-sm btn-danger" type="submit" title="Cancelar cita">
-                            Cancelar
-                        </button>
-                      </form>                      
+                      {{ $appointment->status }}                    
                     </td>
                   </tr>    
                   @endforeach                                
