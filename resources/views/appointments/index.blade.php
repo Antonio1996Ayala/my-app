@@ -16,65 +16,37 @@
         {{ session('notification') }}
       </div>
       @endif
-    </div>    
-    <div class="table-responsive">
-        <table class="table align-items-center table-flush">
-                <thead class="thead-light">
-                  <tr>
-                    <th scope="col">Descripción</th>
-                    <th scope="col">Especialidad</th>
-                    <th scope="col">Dentista</th>
-                    <th scope="col">Fecha</th>
-                    <th scope="col">Hora</th>
-                    <th scope="col">Tipo  de cita</th>
-                    <th scope="col">Estatus de la cita</th>
-                    <th scope="col">Opciones</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  @foreach ($appointments as $appointment)
-                  <tr>
-                    <th scope="row">
-                      {{ $appointment->description }}
-                    </th>
-                    <td>
-                    {{ $appointment->specialty->name }}
-                    </td>
-                    <td>
-                    {{ $appointment->doctor->name }}
-                    </td>
-                    <td>
-                    {{ $appointment->scheduled_date }}
-                    </td>
-                    <td>
-                    {{ $appointment->scheduled_time_12 }}
-                    </td>
-                    <td>
-                    {{ $appointment->type }}
-                    </td>
-                    <td>
-                    {{ $appointment->status }}
-                    </td>
-                    <td>
-                      
-                      <form action="{{ url('/appointments/'.$appointment->id) }}" method="POST">
-                        @csrf
-                        @method('delete')
-
-                        
-                        <button class="btn btn-sm btn-danger" type="submit" title="Cancelar cita">
-                            Cancelar
-                        </button>
-                      </form>                      
-                    </td>
-                  </tr>    
-                  @endforeach                                
-                </tbody>
-        </table>
+      
+      <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="pill" href="#confirmed-appointments" role="tab" aria-selected="true">
+            Mis próximas citas
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="pill" href="#pending-appointments" role="tab" aria-selected="false">
+            Citas por confirmar
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="pill" href="#old-appointments" role="tab" aria-selected="false">
+            Historial de citas
+          </a>
+        </li>
+      </ul>
     </div>
-    <div class="card-body">
-      {{ $appointments->links() }}
-    </div>
+    
+    <div class="tab-content" id="pills-tabContent">
+        <div class="tab-pane fade show active" id="confirmed-appointments" role="tabpanel">
+          @include('appointments.confirmed-appointments')
+        </div>
+        <div class="tab-pane fade" id="pending-appointments" role="tabpanel">
+          @include('appointments.pending-appointments')
+        </div>
+        <div class="tab-pane fade" id="old-appointments" role="tabpanel">
+          @include('appointments.old-appointments')
+        </div>
+      </div>
 </div>
     
 @endsection

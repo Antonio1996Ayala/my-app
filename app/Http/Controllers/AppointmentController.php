@@ -14,8 +14,23 @@ class AppointmentController extends Controller
 {
     public function index()
     {
-        $appointments = Appointment::paginate(10);
-        return view('appointments.index', compact('appointments'));
+        //admin -> all
+        //dentista
+
+        //patient
+        
+        
+        $pendingAppointments = Appointment::where('status', 'Reservada')
+            ->where('patient_id', auth()->id())
+            ->paginate(10);
+        $confirmedAppointments = Appointment::where('status', 'Confirmada')
+        ->where('patient_id', auth()->id())
+            ->paginate(10);
+        $oldAppointments = Appointment::whereIn('status', ['Atendida', 'Cancelada'])
+            ->where('patient_id', auth()->id())
+            ->paginate(10);
+        
+        return view('appointments.index', compact('pendingAppointments', 'confirmedAppointments', 'oldAppointments'));
     }
 
     public function create(ScheduleServiceInterface $scheduleService)
