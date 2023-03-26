@@ -8,16 +8,14 @@ use App\Models\Appointment;
 class ScheduleService implements ScheduleServiceInterface
 {
 
-    private function getDayFromDate($date)
+    public function isAvailableInterval($date, $doctorId, Carbon $start)
     {
-        $dateCarbon = new Carbon($date);
+        $exists = Appointment::where('doctor_id', $doctorId)
+        ->where('scheduled_date', $date)
+        ->where('scheduled_time', $start->format('H:i:s'))
+        ->exists();
 
-        //dayOfWeek
-        //Carbon: 0 (sunday) - 6 (saturday)
-        //WorkDay_ 0 (monday) -6 (sunday)
-        $i = $dateCarbon->dayOfWeek;
-        $day = ($i==0 ? 6 : $i-1);
-        return $day;
+        return !$exists; //available if already none exists
     }
 
     public function getAvailableIntervals($date, $doctorId)
@@ -53,6 +51,18 @@ class ScheduleService implements ScheduleServiceInterface
         return $data;
     }
 
+    private function getDayFromDate($date)
+    {
+        $dateCarbon = new Carbon($date);
+
+        //dayOfWeek
+        //Carbon: 0 (sunday) - 6 (saturday)
+        //WorkDay_ 0 (monday) -6 (sunday)
+        $i = $dateCarbon->dayOfWeek;
+        $day = ($i==0 ? 6 : $i-1);
+        return $day;
+    }
+
     private function getIntervals($start, $end, $date, $doctorId){
         $start = new Carbon($start);
         $end = new Carbon($end);
@@ -64,15 +74,14 @@ class ScheduleService implements ScheduleServiceInterface
 
             $interval ['start'] = $start->format('g:i A');
 
-            //no existe una cita para esta hora con este dentista
-            $exists = Appointment::where('doctor_id', $doctorId)->where('scheduled_date', $date)->where('scheduled_time', $start->format('H:i:s'))->exists();
+            $available = $this->isAvailableInterval($date, $doctorId, $start);
 
             $start->addMinutes(59+1);
             $interval ['end'] = $start->format('g:i A');
 
             
             
-            if (!$exists) {
+            if ($available) {
                 $intervals []= $interval;
             }
             
