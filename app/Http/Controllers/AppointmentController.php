@@ -15,28 +15,43 @@ class AppointmentController extends Controller
 {
     public function index()
     {
-        //admin -> all
-        //dentista
+        $role = auth()->user()->role;
+        //$role == 'admin';
 
-        //patient
-        
-        
-        $pendingAppointments = Appointment::where('status', 'Reservada')
+
+        //dentista
+        if ($role == 'dentista'){
+            $pendingAppointments = Appointment::where('status', 'Reservada')
+            ->where('doctor_id', auth()->id())
+            ->paginate(10);
+            $confirmedAppointments = Appointment::where('status', 'Confirmada')
+            ->where('doctor_id', auth()->id())
+                ->paginate(10);
+            $oldAppointments = Appointment::whereIn('status', ['Atendida', 'Cancelada'])
+                ->where('doctor_id', auth()->id())
+                ->paginate(10);
+            
+        } elseif ($role == 'paciente') {
+            $pendingAppointments = Appointment::where('status', 'Reservada')
             ->where('patient_id', auth()->id())
             ->paginate(10);
-        $confirmedAppointments = Appointment::where('status', 'Confirmada')
-        ->where('patient_id', auth()->id())
-            ->paginate(10);
-        $oldAppointments = Appointment::whereIn('status', ['Atendida', 'Cancelada'])
+            $confirmedAppointments = Appointment::where('status', 'Confirmada')
             ->where('patient_id', auth()->id())
-            ->paginate(10);
+                ->paginate(10);
+            $oldAppointments = Appointment::whereIn('status', ['Atendida', 'Cancelada'])
+                ->where('patient_id', auth()->id())
+                ->paginate(10);
+
+        }
         
-        return view('appointments.index', compact('pendingAppointments', 'confirmedAppointments', 'oldAppointments'));
+        
+        return view('appointments.index', compact('pendingAppointments', 'confirmedAppointments', 'oldAppointments', 'role'));
     }
 
     public function show(Appointment $appointment)
     {
-        return view('appointments.show', compact('appointment'));
+        $role = auth()->user()->role;
+        return view('appointments.show', compact('appointment', 'role'));
     }
 
     public function create(ScheduleServiceInterface $scheduleService)

@@ -4,8 +4,12 @@
                   <tr>
                     <th scope="col">Descripción</th>
                     <th scope="col">Especialidad</th>
-                    <th scope="col">Dentista</th>
-                    <th scope="col">Fecha</th>
+                    @if ($role == 'paciente')
+                      <th scope="col">Dentista</th>
+                    @elseif ($role == 'dentista')
+                      <th scope="col">Paciente</th>
+                    @endif
+                      <th scope="col">Fecha</th>
                     <th scope="col">Hora</th>
                     <th scope="col">Tipo  de cita</th>
                     <th scope="col">Opciones</th>
@@ -20,9 +24,11 @@
                     <td>
                     {{ $appointment->specialty->name }}
                     </td>
-                    <td>
-                    {{ $appointment->doctor->name }}
-                    </td>
+                    @if ($role == 'paciente')
+                      <td>{{ $appointment->doctor->name }}</td>
+                    @elseif ($role == 'dentista')
+                      <td>{{ $appointment->patient->name }}</td>
+                    @endif
                     <td>
                     {{ $appointment->scheduled_date }}
                     </td>
