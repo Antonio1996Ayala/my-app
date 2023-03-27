@@ -26,6 +26,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('doctors', 'App\Http\Controllers\Admin\DoctorController');
     //Patients
     Route::resource('patients', 'App\Http\Controllers\Admin\PatientController');
+
+    //charts
+    Route::get('/charts/appointments/line', [App\Http\Controllers\Admin\ChartController::class, 'appointments']);
 });
 
 //EN ESTA PARTE DE DEBE AGREGAR "/Doctor" EJEMPLO "\Doctor\DoctorController"

@@ -32,11 +32,13 @@
 {{-- Navigation --}}
 <ul class="navbar-nav mb-md-3">
   <li class="nav-item">
-    <a class="nav-link" href="#"></i> Frecuencia de citas
+    <a class="nav-link" href="{{ url('/charts/appointments/line') }}">
+    <i class="ni ni-sound-wave text-blue"></i> Frecuencia de citas
     </a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="#"></i> Dentistas más activos
+    <a class="nav-link" href="{{ url('/charts/doctors/bar') }}">
+    <i class="ni ni-spaceship text-red"></i> Dentistas más activos
     </a>
   </li>
 </ul>
