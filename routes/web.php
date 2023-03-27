@@ -29,6 +29,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     //charts
     Route::get('/charts/appointments/line', [App\Http\Controllers\Admin\ChartController::class, 'appointments']);
+    Route::get('/charts/doctors/column', [App\Http\Controllers\Admin\ChartController::class, 'doctors']);
+    Route::get('/charts/doctors/column/data', [App\Http\Controllers\Admin\ChartController::class, 'doctorsJson']);
 });
 
 //EN ESTA PARTE DE DEBE AGREGAR "/Doctor" EJEMPLO "\Doctor\DoctorController"

@@ -37,7 +37,7 @@
     </a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="{{ url('/charts/doctors/bar') }}">
+    <a class="nav-link" href="{{ url('/charts/doctors/column') }}">
     <i class="ni ni-spaceship text-red"></i> Dentistas más activos
     </a>
   </li>
