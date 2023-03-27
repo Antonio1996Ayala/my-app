@@ -20,6 +20,6 @@
 </li>
 <li class="nav-item">
     <a class="nav-link" href="/appointments">
-        <i class="ni ni-calendar-grid-58 text-blue"></i> Mis citas
+        <i class="ni ni-calendar-grid-58 text-blue"></i> Citas 
     </a>
 </li>

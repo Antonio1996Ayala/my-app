@@ -11,70 +11,75 @@
         </div>
     </div>
     <div class="card-body">
-      <ul>
-        <li>
-            <strong>Fecha:</strong> {{ $appointment->scheduled_date }}
-        </li>
-        <li>
-            <strong>Hora:</strong> {{ $appointment->scheduled_time_12 }}
-        </li>
-        
-        @if ($role == 'paciente')
+        <ul>
+            <li>
+                <strong>Fecha:</strong> {{ $appointment->scheduled_date }}
+            </li>
+            <li>
+                <strong>Hora:</strong> {{ $appointment->scheduled_time_12 }}
+            </li>
+
+            @if ($role == 'paciente' || $role == 'admin')
             <li>
                 <strong>Dentista:</strong> {{ $appointment->doctor->name }}
             </li>
-        @elseif ($role == 'dentista')
+            @endif
+
+            @if ($role == 'dentista' || $role == 'admin')
             <li>
                 <strong>Paciente:</strong> {{ $appointment->patient->name }}
             </li>
-        @endif
-
-        <li>
-            <strong>Especialidad:</strong> {{ $appointment->specialty->name }}
-        </li>
-
-        <li>
-            <strong>Tipo de cita:</strong> {{ $appointment->type }}
-        </li>
-        <li>
-            <strong>Estado de la cita:</strong> 
-            @if ($appointment->status == 'Cancelada')
-                <span class="badge badge-danger">Cancelada</span>
-            @else
-                <span class="badge badge-success">{{ $appointment->status }}</span>
             @endif
-        </li>
-      </ul>
-      <div class="alert alert-warning">
-        <p>Acerca de la cancelación:</p>
-        <ul>
-        @if ($appointment->cancellation)            
-            <li>
-                <strong>Fecha de cancelación:</strong>
-                {{ $appointment->cancellation->created_at }}
-            </li>
-            <li>
-                <strong>¿Quién canceló la cita?:</strong>
-                @if (auth()->id() == $appointment->cancellation->cancelled_by_id)
-                    Tú
-                @else
-                    {{ $appointment->cancellation->cancelled_by->name }}
-                @endif
-                
-            </li>
-            <li>
-                <strong>Justificación:</strong>
-                {{ $appointment->cancellation->justification }}
-            </li>
-        @else
-            <li>Esta cita fue cancelada antes de su confirmación. </li>
-        @endif
-        </ul>
-      </div>  
-      <a href="{{ url('/appointments') }}" class="btn btn-default">
-        Volver
-      </a>
-    </div>
 
-</div>    
+            <li>
+                <strong>Especialidad:</strong> {{ $appointment->specialty->name }}
+            </li>
+
+            <li>
+                <strong>Tipo de cita:</strong> {{ $appointment->type }}
+            </li>
+            <li>
+                <strong>Estado de la cita:</strong>
+                @if ($appointment->status == 'Cancelada')
+                <span class="badge badge-danger">Cancelada</span>
+                @else
+                <span class="badge badge-success">{{ $appointment->status }}</span>
+                @endif
+            </li>
+        </ul>
+
+        @if ($appointment->status == 'Cancelada')
+            <div class="alert alert-warning">
+                <p>Acerca de la cancelación:</p>
+                <ul>
+                    @if ($appointment->cancellation)
+                    <li>
+                        <strong>Fecha de cancelación:</strong>
+                        {{ $appointment->cancellation->created_at }}
+                    </li>
+                    <li>
+                        <strong>¿Quién canceló la cita?:</strong>
+                        @if (auth()->id() == $appointment->cancellation->cancelled_by_id)
+                        Tú
+                        @else
+                        {{ $appointment->cancellation->cancelled_by->name }}
+                        @endif
+
+                    </li>
+                    <li>
+                        <strong>Justificación:</strong>
+                        {{ $appointment->cancellation->justification }}
+                    </li>
+                    @else
+                    <li>Esta cita fue cancelada antes de su confirmación. </li>
+                    @endif
+                </ul>
+            </div>
+        @endif
+
+        <a href="{{ url('/appointments') }}" class="btn btn-default">
+            Volver
+        </a>
+    </div>
+</div>
 @endsection

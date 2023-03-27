@@ -145,8 +145,10 @@ class AppointmentController extends Controller
 
     public function showCancelForm (Appointment $appointment)
     {
-        if ($appointment->status == "Confirmada")
-            return view ('appointments.cancel', compact('appointment'));
+        if ($appointment->status == "Confirmada") {
+            $role = auth()->user()->role;
+            return view ('appointments.cancel', compact('appointment' , 'role'));
+        }
         
         return redirect('/appointments');
     }
@@ -167,6 +169,15 @@ class AppointmentController extends Controller
         $appointment->save(); //update
 
         $notification = 'La cita se ha cancelado correctamente.';
+        return redirect('/appointments')->with(compact('notification'));
+    }
+
+    public function postConfirm (Appointment $appointment)
+    {
+        $appointment->status = 'Confirmada';
+        $appointment->save(); //update
+
+        $notification = 'La cita se ha confirmado correctamente.';
         return redirect('/appointments')->with(compact('notification'));
     }
 
